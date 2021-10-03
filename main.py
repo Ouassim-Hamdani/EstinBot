@@ -1,5 +1,4 @@
 import discord,os,csv
-from keep_alive import keep_alive
 import random
 jokes = ["infomratique mafiahch future","esi sba","mais ntoma futures engineers!","esi sba","estin 9raytha sahla","Esi alger 3andhom SIL SIQ SIT","You","Wajhak","Esi alger 3andhom SIL SIQ SIT"]
 greetingReplies = ["Wach khasak?","Wah?","Achu?","Wch t7was","Cha bghit?","Bala3"]
@@ -60,5 +59,4 @@ async def on_message(message):
     if ("admin" in [y.name.lower() for y in message.author.roles]) or ("mod" in [y.name.lower() for y in message.author.roles]):
       await message.channel.send(showLeaderboard())
 
-keep_alive()
 client.run(os.getenv('TOKEN'))
