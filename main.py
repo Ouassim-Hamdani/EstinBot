@@ -59,4 +59,4 @@ async def on_message(message):
     if ("admin" in [y.name.lower() for y in message.author.roles]) or ("mod" in [y.name.lower() for y in message.author.roles]):
       await message.channel.send(showLeaderboard())
 
-client.run(os.getenv('ODkxNzE4NjQ3MzIyNjUyNzgz.YVCbtA.4YXr22wMZXpwOGwulY0h0njqaKI'))
+client.run('ODkxNzE4NjQ3MzIyNjUyNzgz.YVCbtA.4YXr22wMZXpwOGwulY0h0njqaKI')
