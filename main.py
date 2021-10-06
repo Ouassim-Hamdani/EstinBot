@@ -1,5 +1,10 @@
 import discord,os,csv
+import pymongo
+from pymongo import MongoClient
 import random
+cluster = MongoClient("mongodb+srv://ouassim:1598@cluster0.eroy9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+db = cluster["discord"]
+collection = db["estin"]
 jokes = ["infomratique mafiahch future","esi sba","mais ntoma futures engineers!","esi sba","estin 9raytha sahla","Esi alger 3andhom SIL SIQ SIT","You","Wajhak","Esi alger 3andhom SIL SIQ SIT"]
 greetingReplies = ["Wach khasak?","Wah?","Achu?","Wch t7was","Cha bghit?","Bala3"]
 client = discord.Client()
@@ -10,31 +15,29 @@ def getID(a):
   a = a.replace("!","")
   return a
 def loadIntoList():
-  with open('data.csv') as cdata:
-    reader = csv.reader(cdata)
-    return [x for x in reader]
-def writeData(data):
-  with open('data.csv',"w") as cdata:
-    writer = csv.writer(cdata)
-    writer.writerows(data)
+  r = collection.find({})
+  l = []
+  for i in r:
+      l.append(i)
+  return l
 def showLeaderboard():
   message = "-----> Challenges Leader Board of ESTIN <-----"
   data = loadIntoList()
-  data = sorted(data,key=lambda x: int(x[2]),reverse=True)
+  data = sorted(data,key=lambda x: x["points"],reverse=True)
   for i,stud in enumerate(data):
-    message+=f"\n\n  {str(i+1)}  -  {stud[1]}   Score : {stud[2]}   Challanges Done : {stud[3]}" 
+    message+=f"\n\n  {str(i+1)}  -  {stud['_id']}   Score : {stud['points']}   Challenges Done : {stud['challenges']}" 
   return message
 def addPoints(user,p,name):
-  data = loadIntoList()
+  user2 = user[:2]+"!"+user[2:]
+  #data = loadIntoList()
   found = False
-  for i,stud in enumerate(data):
-    if stud[0] == user or stud[0].replace("!","") == user:
-      found = True
-      data[i][2] = str(int(data[i][2])+int(p))
-      data[i][3] = str(int(data[i][3])+1)
-  if found == False:
-    data.append([user,name,p,"1"])
-  writeData(data)
+  results = collection.find_one({"$or":[{"_id":user},{"_id":user2}]})
+  if results:
+    print(results["_id"])
+    results = collection.update_one({"$or":[{"_id":user},{"_id":user2}]},{"$inc":{"points":int(p),"challenges":1}})
+  else:
+    collection.insert_one({"_id":user,"name":name,"points":int(p),"challenges":1})
+  #writeData(data)
 @client.event
 async def on_ready():
   await client.change_presence(activity=discord.Activity(type=discord.ActivityType.custom,name="Made by Ouassim Hamdani"))
