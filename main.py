@@ -21,11 +21,13 @@ def loadIntoList():
       l.append(i)
   return l
 def showLeaderboard():
-  message = "-----> Challenges Leader Board of ESTIN <-----"
   data = loadIntoList()
   data = sorted(data,key=lambda x: x["points"],reverse=True)
   for i,stud in enumerate(data):
-    message+=f"\n\n  {str(i+1)}  -  {stud['_id']}   Score : {stud['points']}   Challenges Done : {stud['challenges']}" 
+    if i==0:
+      message=f"  {str(i+1)}  -  **{stud['name']}**   \tScore : {stud['points']}   \tChallenges Done : {stud['challenges']}" 
+    else:
+      message+=f"\n\n  {str(i+1)}  -  **{stud['name']}**   \tScore : {stud['points']}   \tChallenges Done : {stud['challenges']}" 
   return message
 def addPoints(user,p,name):
   user2 = user[:2]+"!"+user[2:]
@@ -60,6 +62,12 @@ async def on_message(message):
       await message.channel.send(f'Added {message.content.split()[2]} to {message.content.split()[1]}')
   if message.content.startswith('$leader'):
     if ("admin" in [y.name.lower() for y in message.author.roles]) or ("mod" in [y.name.lower() for y in message.author.roles]):
-      await message.channel.send(showLeaderboard())
-
+      embed = discord.Embed(
+        title = 'Challenges Leader Board of ESTIN',
+        description=showLeaderboard(),
+        colour =discord.Colour.blue()
+      )
+      embed.set_footer(text="École supérieure en sciences et technologies de l'informatique et du numérique")
+      embed.set_image(url='https://estin.dz/wp-content/uploads/2020/11/cropped-estin_logo-mini-2-2.jpg')
+      await message.channel.send(embed=embed)
 client.run('ODkxNzE4NjQ3MzIyNjUyNzgz.YVCbtA.4YXr22wMZXpwOGwulY0h0njqaKI')
