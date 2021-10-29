@@ -70,4 +70,4 @@ async def on_message(message):
       embed.set_footer(text="École supérieure en sciences et technologies de l'informatique et du numérique")
       embed.set_image(url='https://estin.dz/wp-content/uploads/2020/11/cropped-estin_logo-mini-2-2.jpg')
       await message.channel.send(embed=embed)
-client.run('ODkxNzE4NjQ3MzIyNjUyNzgz.YVCbtA.4YXr22wMZXpwOGwulY0h0njqaKI')
+client.run('ODkxNzE4NjQ3MzIyNjUyNzgz.YVCbtA.fmoPtSwwhtiAjOraby-UWF0l454')
