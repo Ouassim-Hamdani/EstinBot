@@ -2,6 +2,7 @@ import discord,os,csv
 import pymongo
 from pymongo import MongoClient
 import random
+key = None
 cluster = MongoClient("mongodb+srv://ouassim:1598@cluster0.eroy9.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 db = cluster["discord"]
 collection = db["estin"]
@@ -70,4 +71,4 @@ async def on_message(message):
       embed.set_footer(text="École supérieure en sciences et technologies de l'informatique et du numérique")
       embed.set_image(url='https://estin.dz/wp-content/uploads/2020/11/cropped-estin_logo-mini-2-2.jpg')
       await message.channel.send(embed=embed)
-client.run('ODkxNzE4NjQ3MzIyNjUyNzgz.YVCbtA.fmoPtSwwhtiAjOraby-UWF0l454')
+client.run(key)
